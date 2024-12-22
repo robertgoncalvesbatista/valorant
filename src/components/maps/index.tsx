@@ -30,10 +30,11 @@ function useGetMaps() {
 }
 
 type MapsProps = {
+  map: Map | undefined;
   setMap: React.Dispatch<React.SetStateAction<Map | undefined>>;
 };
 
-export function Maps({ setMap }: MapsProps) {
+export function Maps({ map, setMap }: MapsProps) {
   const { maps } = useGetMaps();
 
   useEffect(() => {
@@ -41,6 +42,16 @@ export function Maps({ setMap }: MapsProps) {
       setMap(maps[0]);
     }
   }, [maps, setMap]);
+
+  if (!map) {
+    return (
+      <div className="shadow rounded-md w-full max-h-[573px]">
+        <div className="flex-1 animate-pulse">
+          <div className="h-[573px] bg-slate-700 rounded"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2 max-h-[573px] overflow-y-auto">

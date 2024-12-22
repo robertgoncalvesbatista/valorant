@@ -34,6 +34,22 @@ function useGetAgents() {
 export function Agents() {
   const { agents } = useGetAgents();
 
+  if (agents.length === 0) {
+    return (
+      <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px]">
+        {Array(15)
+          .fill(0)
+          .map((_, key) => {
+            return (
+              <div key={key} className="flex-1 shadow rounded-md animate-pulse">
+                <div className="w-[235px] h-[343px] bg-slate-700 rounded"></div>
+              </div>
+            );
+          })}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px]">
       {agents.map((a) => {

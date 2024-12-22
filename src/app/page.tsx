@@ -9,9 +9,40 @@ import Maps from "@/components/maps";
 import { Map } from "@/domain/map";
 
 import ImageLogo from "../assets/logo.png";
-import ImageError from "../assets/error.jpg";
 
 import { BackgroundImage } from "./styles";
+
+type SelectedMapProps = { map: Map | undefined };
+
+function SelectedMap({ map }: SelectedMapProps) {
+  if (!map) {
+    return (
+      <div className="shadow rounded-md w-[420px] h-[236px] mb-4">
+        <div className="flex-1 animate-pulse">
+          <div className="h-[236px] bg-slate-700 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-4 h-[236px] w-[420px]">
+      <Image
+        priority
+        src={map.splash}
+        alt={map.displayName}
+        width={500}
+        height={500}
+        className="brightness-50"
+        style={{ border: "2px solid #ff4654" }}
+      />
+
+      <h1 className="relative bottom-16 left-4 text-2xl uppercase">
+        {map.displayName}
+      </h1>
+    </div>
+  );
+}
 
 export function Home() {
   const [map, setMap] = useState<Map>();
@@ -36,25 +67,9 @@ export function Home() {
             <h1 className="text-2xl">MAPAS</h1>
 
             <div className="w-full flex flex-col">
-              <div className="mb-4 h-[236px] w-[420px]">
-                <Image
-                  className="brightness-50"
-                  src={map?.splash ?? ImageError}
-                  priority
-                  alt={map?.displayName ?? ""}
-                  width={500}
-                  height={500}
-                  style={{
-                    border: "2px solid #ff4654",
-                  }}
-                />
+              <SelectedMap map={map} />
 
-                <h1 className="relative bottom-16 left-4 text-2xl uppercase">
-                  {map?.displayName ?? ""}
-                </h1>
-              </div>
-
-              <Maps setMap={setMap} />
+              <Maps map={map} setMap={setMap} />
             </div>
           </div>
 

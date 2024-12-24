@@ -53,7 +53,7 @@ function SelectedMap({ map }: SelectedMapProps) {
   );
 }
 
-export function Home() {
+function Home() {
   const [open, setOpen] = useState<boolean>(false);
   const [agent, setAgent] = useState<Agent>();
 

@@ -3,15 +3,9 @@ import localFont from "next/font/local";
 
 import "@/assets/globals.css";
 
-const geistSans = localFont({
-  src: "../assets/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "../assets/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const antonRegular = localFont({
+  src: "../assets/fonts/AntonRegular.ttf",
+  variable: "--font-anton-regular",
   weight: "100 900",
 });
 
@@ -27,11 +21,7 @@ type Props = {
 export default function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${antonRegular.variable} antialiased`}>{children}</body>
     </html>
   );
 }

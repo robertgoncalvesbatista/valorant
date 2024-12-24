@@ -1,37 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 
 import { Agent } from "@/domain/agent";
 
+import { useGetAgents } from "./useGetAgents";
+
 import { AgentCard, AgentImage } from "./styles";
-import Image from "next/image";
 
-function useGetAgents() {
-  const [agents, setAgents] = useState<Agent[]>([]);
+type Props = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setAgent: React.Dispatch<React.SetStateAction<Agent | undefined>>;
+};
 
-  const handleFetchAgents = useCallback(async () => {
-    try {
-      const URL = "https://valorant-api.com/v1/agents?isPlayableCharacter=true";
-
-      const response = await fetch(URL);
-      const json = await response.json();
-
-      setAgents(json.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    handleFetchAgents();
-  }, [handleFetchAgents]);
-
-  return { agents, setAgents };
-}
-
-export function Agents() {
+export function Agents({ setOpen, setAgent }: Props) {
   const { agents } = useGetAgents();
 
   if (agents.length === 0) {
@@ -51,7 +33,7 @@ export function Agents() {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px]">
+    <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px] justify-center md:justify-normal">
       {agents.map((a) => {
         const [first, seccond, third, fourth] = a.backgroundGradientColors;
         const linear_gradient = `to bottom, #${first}, #${seccond}, #${third}, #${fourth}`;
@@ -61,6 +43,10 @@ export function Agents() {
             key={a.uuid}
             $gradient={linear_gradient}
             $name={a.displayName}
+            onClick={() => {
+              setOpen(true);
+              setAgent(a);
+            }}
           >
             <div
               className="w-full h-full bg-cover flex justify-center items-center"

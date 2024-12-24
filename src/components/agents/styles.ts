@@ -12,16 +12,6 @@ export const AgentCard = styled.div<{ $gradient: string; $name: string }>`
   &:hover {
     filter: grayscale(0);
     border: 2px solid #ff4654;
-
-    /* &:after {
-      content: "${(props) => props.$name}";
-      filter: drop-shadow(2px 4px 6px black);
-      text-transform: uppercase;
-      position: absolute;
-      font-size: 32px;
-      bottom: 12px;
-      left: 12px;
-    } */
   }
 `;
 

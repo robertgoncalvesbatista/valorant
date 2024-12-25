@@ -6,29 +6,16 @@ import { Agent } from "@/domain/agent";
 
 import { StyledImage } from "./styles";
 
-type AbilitiesProps = { agent: Agent | undefined };
+type Props = {
+  agent: Agent | undefined;
+};
 
-export function Abilities({ agent }: AbilitiesProps) {
+export default function Abilities({ agent }: Readonly<Props>) {
   const [abilityIndex, setAbilityIndex] = useState<number>(0);
 
   return (
-    <div
-      style={{
-        marginTop: "1.5rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          bottom: "1rem",
-          width: "100%",
-          justifyContent: "center",
-        }}
-      >
+    <div className="flex flex-col mt-6 gap-8">
+      <div className="flex gap-4 bottom-4 w-full justify-center">
         {agent?.abilities.map((s, i) => {
           if (s.slot === "Passive") {
             return null;
@@ -46,13 +33,12 @@ export function Abilities({ agent }: AbilitiesProps) {
       </div>
 
       <div>
-        <h6 style={{ textTransform: "uppercase", marginBottom: "1rem" }}>
+        <h6 className="uppercase mb-4">
           {agent?.abilities[abilityIndex].displayName}
         </h6>
+
         <p>{agent?.abilities[abilityIndex].description}</p>
       </div>
     </div>
   );
 }
-
-export default Abilities;

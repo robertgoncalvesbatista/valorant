@@ -4,16 +4,16 @@ import { useEffect } from "react";
 
 import { Map } from "@/domain/map";
 
-import { useGetMaps } from "./useGetMaps";
+import useGetMaps from "./useGetMaps";
 
 import { ListViewMap, ListViewMapImage } from "./styles";
 
-type MapsProps = {
+type Props = {
   map: Map | undefined;
   setMap: React.Dispatch<React.SetStateAction<Map | undefined>>;
 };
 
-export function Maps({ map, setMap }: MapsProps) {
+export default function Maps({ map, setMap }: Props) {
   const { maps } = useGetMaps();
 
   useEffect(() => {
@@ -24,16 +24,16 @@ export function Maps({ map, setMap }: MapsProps) {
 
   if (!map) {
     return (
-      <div className="shadow rounded-md w-full max-h-[573px]">
+      <div className="shadow rounded-md w-full max-h-[500px]">
         <div className="flex-1 animate-pulse">
-          <div className="h-[573px] bg-slate-700 rounded"></div>
+          <div className="h-[500px] bg-slate-700 rounded"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 max-h-[573px] overflow-y-auto">
+    <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto">
       {maps
         .filter((i) => !!i.coordinates && !!i.xMultiplier)
         .map((i) => {
@@ -50,5 +50,3 @@ export function Maps({ map, setMap }: MapsProps) {
     </div>
   );
 }
-
-export default Maps;

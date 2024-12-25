@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Map } from "@/domain/map";
 
-export function useGetMaps() {
+export default function useGetMaps() {
   const [maps, setMaps] = useState<Map[]>([]);
 
   const handleFetchMaps = useCallback(async () => {

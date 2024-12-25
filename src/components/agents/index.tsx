@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { Agent } from "@/domain/agent";
 
-import { useGetAgents } from "./useGetAgents";
+import useGetAgents from "./useGetAgents";
 
 import { AgentCard, AgentImage } from "./styles";
 
@@ -13,12 +13,12 @@ type Props = {
   setAgent: React.Dispatch<React.SetStateAction<Agent | undefined>>;
 };
 
-export function Agents({ setOpen, setAgent }: Props) {
+export default function Agents({ setOpen, setAgent }: Props) {
   const { agents } = useGetAgents();
 
   if (agents.length === 0) {
     return (
-      <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px]">
+      <div className="flex flex-wrap gap-4 overflow-y-auto h-[752px]">
         {Array(15)
           .fill(0)
           .map((_, key) => {
@@ -33,7 +33,7 @@ export function Agents({ setOpen, setAgent }: Props) {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 overflow-y-auto h-[825px] justify-center md:justify-normal">
+    <div className="flex flex-wrap gap-4 overflow-y-auto h-[752px] justify-center">
       {agents.map((a) => {
         const [first, seccond, third, fourth] = a.backgroundGradientColors;
         const linear_gradient = `to bottom, #${first}, #${seccond}, #${third}, #${fourth}`;
@@ -93,5 +93,3 @@ export function Agents({ setOpen, setAgent }: Props) {
     </div>
   );
 }
-
-export default Agents;

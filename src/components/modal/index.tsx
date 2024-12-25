@@ -7,8 +7,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function Modal({
-  open = false,
+export default function Modal({
+  open,
   setOpen,
   backgroundGradientColors,
   children,
@@ -27,5 +27,3 @@ export function Modal({
     </StyledModal>
   );
 }
-
-export default Modal;

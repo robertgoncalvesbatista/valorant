@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Agent } from "@/domain/agent";
 
-export function useGetAgents() {
+export default function useGetAgents() {
   const [agents, setAgents] = useState<Agent[]>([]);
 
   const handleFetchAgents = useCallback(async () => {

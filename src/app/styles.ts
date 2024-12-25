@@ -17,16 +17,11 @@ export const BackgroundImage = styled.div<{ $url: string }>`
   }
 `;
 
-export const AgentCard = styled.div<{ $name: string }>`
-  width: 235px;
-  height: 343px;
-`;
-
 export const AgentImage = styled.img`
   filter: drop-shadow(2px 4px 6px black);
   transition: 0.2s ease-in-out;
 
-  max-width: -webkit-fill-available;
+  max-width: fit-content;
   height: 254px;
   object-fit: cover;
 `;

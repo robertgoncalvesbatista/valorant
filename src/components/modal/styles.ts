@@ -1,21 +1,36 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export const StyledModal = styled.div<{ $open: boolean }>`
+// Keyframes para animações de fade in e fade out
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+export const ModalOverlay = styled.div<{ $open: boolean }>`
   display: ${(props) => (props.$open ? "flex" : "none")};
 
   position: fixed;
   z-index: 1;
   top: 0;
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.5);
 
-  width: 100%;
-  height: 100%;
-
-  justify-content: center;
-  align-items: center;
+  animation: ${(props) => (!props.$open ? fadeOut : fadeIn)} 0.5s forwards;
 `;
 
-export const Card = styled.div<{ $bgColor: string }>`
+export const ModalContent = styled.div<{ $bgColor: string }>`
   position: relative;
 
   max-width: 250px;
@@ -33,17 +48,8 @@ export const Card = styled.div<{ $bgColor: string }>`
 `;
 
 export const CloseButton = styled.button`
-  position: absolute;
-
   top: 10px;
   right: 10px;
 
   color: white;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 13px;
-  height: 13px;
 `;

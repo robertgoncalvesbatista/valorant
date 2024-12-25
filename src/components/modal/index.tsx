@@ -1,4 +1,4 @@
-import { Card, CloseButton, StyledModal } from "./styles";
+import { ModalContent, CloseButton, ModalOverlay } from "./styles";
 
 type Props = {
   open: boolean;
@@ -18,12 +18,20 @@ export default function Modal({
   const linearGradient = `to bottom, #${first}, #${seccond}, #${third}, #${fourth}`;
 
   return (
-    <StyledModal $open={open}>
-      <Card $bgColor={linearGradient}>
-        <CloseButton onClick={() => setOpen(false)}>&#x2715;</CloseButton>
+    <ModalOverlay
+      $open={open}
+      className="w-full h-full justify-center items-center"
+    >
+      <ModalContent $bgColor={linearGradient}>
+        <CloseButton
+          className="absolute flex justify-center items-center w-[13px] h-[13px]"
+          onClick={() => setOpen(false)}
+        >
+          &#x2715;
+        </CloseButton>
 
         {children}
-      </Card>
-    </StyledModal>
+      </ModalContent>
+    </ModalOverlay>
   );
 }

@@ -3,24 +3,62 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #090c12;
+  --foreground: #fbfcfe;
+  --surface: #171c27;
+  --surface-raised: #202736;
+  --surface-muted: #111620;
+  --text-muted: #c4cad5;
+  --text-subtle: #a2abba;
+  --border: #3a4457;
+  --primary: #ff4655;
+  --primary-strong: #e23b49;
+  --primary-soft: #3a2026;
+  --accent: #66e3c4;
+  --danger: #ff6b75;
 }
 
 body {
+  min-width: 320px;
+  min-height: 100vh;
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-anton-regular);
-  letter-spacing: "2px";
+  font-family: "Segoe UI", Inter, Arial, sans-serif;
+  letter-spacing: 0;
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: var(--border);
+}
+
+::selection {
+  background-color: var(--primary);
+  color: #0b0d12;
+  text-shadow: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

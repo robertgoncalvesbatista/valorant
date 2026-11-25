@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import { ModalContent, CloseButton, ModalOverlay } from "./styles";
 
 type Props = {
@@ -13,21 +15,74 @@ export default function Modal({
   backgroundGradientColors,
   children,
 }: Props) {
-  const [first, seccond, third, fourth] = backgroundGradientColors;
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
-  const linearGradient = `to bottom, #${first}, #${seccond}, #${third}, #${fourth}`;
+  const [first, seccond, third, fourth] = backgroundGradientColors;
+  const gradientColors = [first, seccond, third, fourth]
+    .filter(Boolean)
+    .map((color) => `#${color}`);
+  const linearGradient =
+    gradientColors.length >= 2
+      ? `135deg, ${gradientColors.join(", ")}`
+      : "135deg, #202736, #111620";
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) {
+      return;
+    }
+
+    if (open) {
+      triggerRef.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+    } else if (dialog.open) {
+      dialog.close();
+      document.body.style.overflow = "";
+      triggerRef.current?.focus();
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (open && event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open, setOpen]);
+
+  const closeModal = () => setOpen(false);
 
   return (
     <ModalOverlay
+      ref={dialogRef}
       $open={open}
-      className="w-full h-full justify-center items-center"
+      $bgColor={linearGradient}
+      aria-label="Detalhes do personagem"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          closeModal();
+        }
+      }}
     >
-      <ModalContent $bgColor={linearGradient}>
+      <ModalContent>
         <CloseButton
-          className="absolute flex justify-center items-center w-[13px] h-[13px]"
-          onClick={() => setOpen(false)}
+          type="button"
+          onClick={closeModal}
+          aria-label="Fechar detalhes"
         >
-          &#x2715;
+          <span aria-hidden="true">Fechar</span>
+          <span aria-hidden="true" className="text-lg">×</span>
         </CloseButton>
 
         {children}

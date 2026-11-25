@@ -1,55 +1,57 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-// Keyframes para animações de fade in e fade out
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
+export const ModalOverlay = styled.dialog<{ $open: boolean; $bgColor: string }>`
+  width: min(calc(100% - 32px), 720px);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0;
+  background:
+    ${(props) => `linear-gradient(135deg, rgba(9, 12, 18, 0.86), rgba(32, 39, 54, 0.94)), linear-gradient(${props.$bgColor})`};
+  color: var(--foreground);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.56);
+
+  &::backdrop {
+    background: rgba(7, 8, 12, 0.82);
   }
-  to {
-    opacity: 1;
+
+  &[open] {
+    animation: modal-in 180ms ease-out;
+  }
+
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
-
-export const ModalOverlay = styled.div<{ $open: boolean }>`
-  display: ${(props) => (props.$open ? "flex" : "none")};
-
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  background: rgba(0, 0, 0, 0.5);
-
-  animation: ${(props) => (!props.$open ? fadeOut : fadeIn)} 0.5s forwards;
-`;
-
-export const ModalContent = styled.div<{ $bgColor: string }>`
+export const ModalContent = styled.div`
   position: relative;
-
-  max-width: 250px;
-  width: 100%;
-
-  min-height: 300px;
-
-  background-image: linear-gradient(${(props) => props.$bgColor});
-  border-radius: 8px;
-  padding: 1rem;
-
-  @media (min-width: 900px) {
-    max-width: 600px;
-  }
+  min-height: 320px;
+  padding: 24px;
 `;
 
 export const CloseButton = styled.button`
-  top: 10px;
-  right: 10px;
-
-  color: white;
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(11, 13, 18, 0.88);
+  padding: 8px 12px;
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 700;
 `;

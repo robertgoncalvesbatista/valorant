@@ -6,7 +6,7 @@ import { Map } from "@/domain/map";
 
 import useGetMaps from "./useGetMaps";
 
-import { ListViewMap, ListViewMapImage } from "./styles";
+import { MapList, MapOption, MapOptionImage } from "./styles";
 
 type Props = {
   map: Map | undefined;
@@ -14,39 +14,73 @@ type Props = {
 };
 
 export default function Maps({ map, setMap }: Props) {
-  const { maps } = useGetMaps();
+  const { maps, loading, error, retry } = useGetMaps();
+  const playableMaps = maps.filter((item) => !!item.coordinates && !!item.xMultiplier);
 
   useEffect(() => {
-    if (maps.length) {
-      setMap(maps[0]);
+    if (!map && playableMaps.length) {
+      setMap(playableMaps[0]);
     }
-  }, [maps, setMap]);
+  }, [map, playableMaps, setMap]);
 
-  if (!map) {
+  if (loading) {
     return (
-      <div className="shadow rounded-md w-full max-h-[500px]">
-        <div className="flex-1 animate-pulse">
-          <div className="h-[500px] bg-slate-700 rounded"></div>
-        </div>
+      <MapList aria-label="Carregando mapas">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-20 animate-pulse rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]"
+            aria-hidden="true"
+          />
+        ))}
+      </MapList>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4" role="alert">
+        <p className="mb-3 text-sm text-[var(--text-muted)]">{error}</p>
+        <button
+          type="button"
+          onClick={retry}
+          className="min-h-11 rounded-lg bg-[var(--primary)] px-4 py-2 font-bold text-[#0b0d12]"
+        >
+          Tentar novamente
+        </button>
+      </div>
+    );
+  }
+
+  if (!playableMaps.length) {
+    return (
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <p className="text-sm text-[var(--text-muted)]">
+          Nenhum mapa esta disponivel no momento.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto">
-      {maps
-        .filter((i) => !!i.coordinates && !!i.xMultiplier)
-        .map((i) => {
+    <MapList aria-label="Escolher mapa">
+      {playableMaps.map((item) => {
+        const selected = map?.uuid === item.uuid;
+
           return (
-            <ListViewMap
-              key={i.uuid}
-              $name={i.displayName}
-              onClick={() => setMap(i)}
+            <MapOption
+              key={item.uuid}
+              type="button"
+              $selected={selected}
+              aria-pressed={selected}
+              onClick={() => setMap(item)}
             >
-              <ListViewMapImage src={i.splash} alt={i.displayName} />
-            </ListViewMap>
+              <MapOptionImage src={item.splash} alt="" />
+              <span>{item.displayName}</span>
+              {selected && <span aria-hidden="true">Selecionado</span>}
+            </MapOption>
           );
         })}
-    </div>
+    </MapList>
   );
 }
